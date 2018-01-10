@@ -11,7 +11,7 @@ class m170519_181139_create_shop_products_table extends Migration
         $this->createTable('{{%shop_products}}', [
             'id' => $this->primaryKey(),
             'category_id' => $this->integer()->notNull(),
-            'brand_id' => $this->integer()->notNull(),
+            //'brand_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'code' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
@@ -31,7 +31,7 @@ class m170519_181139_create_shop_products_table extends Migration
         $this->createIndex('{{%idx-shop_products-code}}', '{{%shop_products}}', 'code', true);
         
         $this->createIndex('{{%idx-shop_products-category_id}}', '{{%shop_products}}', 'category_id');
-        $this->createIndex('{{%idx-shop_products-brand_id}}', '{{%shop_products}}', 'brand_id');
+//        $this->createIndex('{{%idx-shop_products-brand_id}}', '{{%shop_products}}', 'brand_id');
 
         $this->addForeignKey('{{%fk-shop_products-category_id}}', '{{%shop_products}}', 'category_id', '{{%shop_categories}}', 'id');
         $this->addForeignKey('{{%fk-shop_products-brand_id}}', '{{%shop_products}}', 'brand_id', '{{%shop_brands}}', 'id');
