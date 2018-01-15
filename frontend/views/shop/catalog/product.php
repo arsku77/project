@@ -113,9 +113,17 @@ MagnificPopupAsset::register($this);
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="Add to Wish List" href="<?= Url::to(['/cabinet/wishlist/add', 'id' => $product->id]) ?>" data-method="post"><i class="fa fa-heart"></i></button>
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="Compare this Product" onclick="compare.add('47');"><i class="fa fa-exchange"></i></button>
         </p>
-        <h1><?= Html::encode($product->name) ?></h1>
+        <h1><?= Html::encode($product->id . ': ' . $product->name) ?></h1>
         <ul class="list-unstyled">
-            <li>Brand: <a href="<?= Html::encode(Url::to(['brand', 'id' => $product->brand->id])) ?>"><?= Html::encode($product->brand->name) ?></a></li>
+            <li>
+                Brand:
+                <?php foreach ($product->brands as $brand): ?>
+                    <a href="<?= Html::encode(Url::to(['brand', 'id' => $brand->id])) ?>"><?= Html::encode($brand->name) ?></a>
+                <?php endforeach; ?>
+            </li>
+            <li>
+                Brand: <a href="<?= Html::encode(Url::to(['brand', 'id' => $product->brand->id])) ?>"><?= Html::encode($product->brand->name) ?></a>
+            </li>
             <li>
                 Tags:
                 <?php foreach ($product->tags as $tag): ?>

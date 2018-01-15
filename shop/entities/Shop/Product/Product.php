@@ -40,6 +40,7 @@ use yii\web\UploadedFile;
  * @property CategoryAssignment[] $categoryAssignments
  * @property Category[] $categories
  * @property TagAssignment[] $tagAssignments
+ * @property Brand[] $brands
  * @property Tag[] $tags
  * @property RelatedAssignment[] $relatedAssignments
  * @property Modification[] $modifications
@@ -532,6 +533,16 @@ class Product extends ActiveRecord implements AggregateRoot
     public function getTags(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])->via('tagAssignments');
+    }
+
+    public function getBrandAssignments(): ActiveQuery
+    {
+        return $this->hasMany(BrandAssignment::class, ['product_id' => 'id']);
+    }
+
+    public function getBrands(): ActiveQuery
+    {
+        return $this->hasMany(Brand::class, ['id' => 'brand_id'])->via('brandAssignments');
     }
 
     public function getModifications(): ActiveQuery
