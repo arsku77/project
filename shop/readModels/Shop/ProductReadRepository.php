@@ -59,11 +59,20 @@ class ProductReadRepository
         $query->groupBy('p.id');
         return $this->getProvider($query);
     }
+/*------buvo surista tiesiogiai product_id (shop_brand) su shop_product id -------------*/
+//    public function getAllByBrand(Brand $brand): DataProviderInterface
+//    {
+//        $query = Product::find()->alias('p')->active('p')->with('mainPhoto');
+//        $query->andWhere(['p.brand_id' => $brand->id]);
+//        return $this->getProvider($query);
+//    }
 
     public function getAllByBrand(Brand $brand): DataProviderInterface
     {
         $query = Product::find()->alias('p')->active('p')->with('mainPhoto');
-        $query->andWhere(['p.brand_id' => $brand->id]);
+        $query->joinWith(['brandAssignments ba'], false);
+        $query->andWhere(['ba.brand_id' => $brand->id]);
+        $query->groupBy('p.id');
         return $this->getProvider($query);
     }
 
