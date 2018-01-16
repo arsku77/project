@@ -122,9 +122,6 @@ MagnificPopupAsset::register($this);
                 <?php endforeach; ?>
             </li>
             <li>
-                Brand: <a href="<?= Html::encode(Url::to(['brand', 'id' => $product->brand->id])) ?>"><?= Html::encode($product->brand->name) ?></a>
-            </li>
-            <li>
                 Tags:
                 <?php foreach ($product->tags as $tag): ?>
                     <a href="<?= Html::encode(Url::to(['tag', 'id' => $tag->id])) ?>"><?= Html::encode($tag->name) ?></a>

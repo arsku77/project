@@ -40,6 +40,7 @@ use yii\web\UploadedFile;
  * @property CategoryAssignment[] $categoryAssignments
  * @property Category[] $categories
  * @property TagAssignment[] $tagAssignments
+ * @property BrandAssignment[] $brandAssignments
  * @property Brand[] $brands
  * @property Tag[] $tags
  * @property RelatedAssignment[] $relatedAssignments
@@ -336,6 +337,38 @@ class Product extends ActiveRecord implements AggregateRoot
         $this->tagAssignments = [];
     }
 
+    // Brands
+
+    public function assignBrand($id): void
+    {
+        $assignments = $this->brandAssignments;
+        foreach ($assignments as $assignment) {
+            if ($assignment->isForBrand($id)) {
+                return;
+            }
+        }
+        $assignments[] = BrandAssignment::create($id);
+        $this->brandAssignments = $assignments;
+    }
+
+    public function revokeBrand($id): void
+    {
+        $assignments = $this->brandAssignments;
+        foreach ($assignments as $i => $assignment) {
+            if ($assignment->isForBrand($id)) {
+                unset($assignments[$i]);
+                $this->brandAssignments = $assignments;
+                return;
+            }
+        }
+        throw new \DomainException('Assignment is not found.');
+    }
+
+    public function revokeBrands(): void
+    {
+        $this->brandAssignments = [];
+    }
+
     // Photos
 
     public function addPhoto(UploadedFile $file): void
@@ -505,10 +538,10 @@ class Product extends ActiveRecord implements AggregateRoot
 
     ##########################
 
-    public function getBrand(): ActiveQuery
-    {
-        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
-    }
+//    public function getBrand(): ActiveQuery
+//    {
+//        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+//    }
 
     public function getCategory(): ActiveQuery
     {
@@ -598,7 +631,7 @@ class Product extends ActiveRecord implements AggregateRoot
             MetaBehavior::className(),
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'tagAssignments', 'relatedAssignments', 'modifications', 'values', 'photos', 'reviews'],
+                'relations' => ['categoryAssignments', 'tagAssignments', 'brandAssignments', 'relatedAssignments', 'modifications', 'values', 'photos', 'reviews'],
             ],
         ];
     }

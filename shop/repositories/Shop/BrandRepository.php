@@ -15,6 +15,11 @@ class BrandRepository
         return $brand;
     }
 
+    public function findByName($name): ? Brand
+    {
+        return Brand::findOne(['name' => $name]);
+    }
+
     public function save(Brand $brand): void
     {
         if (!$brand->save()) {

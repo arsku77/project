@@ -54,6 +54,15 @@ $this->params['breadcrumbs'][] = 'Update';
         </div>
         <div class="col-md-6">
             <div class="box box-default">
+                <div class="box-header with-border">Brands</div>
+                <div class="box-body">
+                    <?= $form->field($model->brands, 'existing')->checkboxList($model->brands->brandsList()) ?>
+                    <?= $form->field($model->brands, 'textNew')->textInput() ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-default">
                 <div class="box-header with-border">Tags</div>
                 <div class="box-body">
                     <?= $form->field($model->tags, 'existing')->checkboxList($model->tags->tagsList()) ?>

@@ -5,6 +5,7 @@ namespace shop\useCases\manage\Shop;
 use shop\entities\Meta;
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Tag;
+use shop\entities\Shop\Brand;
 use shop\forms\manage\Shop\Product\QuantityForm;
 use shop\forms\manage\Shop\Product\CategoriesForm;
 use shop\forms\manage\Shop\Product\ModificationForm;
@@ -120,6 +121,7 @@ class ProductManageService
 
             $product->revokeCategories();
             $product->revokeTags();
+            $product->revokeBrands();
             $this->products->save($product);
 
             foreach ($form->categories->others as $otherId) {
@@ -141,6 +143,18 @@ class ProductManageService
                     $this->tags->save($tag);
                 }
                 $product->assignTag($tag->id);
+            }
+
+            foreach ($form->brands->existing as $brandId) {
+                $brand = $this->brands->get($brandId);
+                $product->assignBrand($brand->id);
+            }
+            foreach ($form->brands->newNames as $brandName) {
+                if (!$brand = $this->brands->findByName($brandName)) {
+                    $brand = Brand::create($brandName, $brandName);
+                    $this->brands->save($brand);
+                }
+                $product->assignBrand($brand->id);
             }
             $this->products->save($product);
         });

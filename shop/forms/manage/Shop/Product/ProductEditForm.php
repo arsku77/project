@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 /**
  * @property MetaForm $meta
  * @property CategoriesForm $categories
+ * @property BrandsForm $brands
  * @property TagsForm $tags
  * @property ValueForm[] $values
  */
@@ -34,6 +35,7 @@ class ProductEditForm extends CompositeForm
         $this->weight = $product->weight;
         $this->meta = new MetaForm($product->meta);
         $this->categories = new CategoriesForm($product);
+        $this->brands = new BrandsForm($product);
         $this->tags = new TagsForm($product);
         $this->values = array_map(function (Characteristic $characteristic) use ($product) {
             return new ValueForm($characteristic, $product->getValue($characteristic->id));
@@ -61,6 +63,6 @@ class ProductEditForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['meta', 'categories', 'tags', 'values'];
+        return ['meta', 'categories', 'brands', 'tags', 'values'];
     }
 }
