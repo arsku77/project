@@ -538,10 +538,10 @@ class Product extends ActiveRecord implements AggregateRoot
 
     ##########################
 
-//    public function getBrand(): ActiveQuery
-//    {
-//        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
-//    }
+    public function getBrand(): ActiveQuery
+    {
+        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+    }
 
     public function getCategory(): ActiveQuery
     {
