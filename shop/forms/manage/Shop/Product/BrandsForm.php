@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 class BrandsForm extends Model
 {
     public $existing = [];
-    public $textNew;
+    public $brandNew;
 
     public function __construct(Product $product = null, $config = [])
     {
@@ -28,7 +28,7 @@ class BrandsForm extends Model
         return [
             ['existing', 'each', 'rule' => ['integer']],
             ['existing', 'default', 'value' => []],
-            ['textNew', 'string'],
+            ['brandNew', 'string'],
         ];
     }
 
@@ -39,6 +39,6 @@ class BrandsForm extends Model
 
     public function getNewNames(): array
     {
-        return array_filter(array_map('trim', preg_split('#\s*,\s*#i', $this->textNew)));
+        return array_filter(array_map('trim', preg_split('#\s*,\s*#i', $this->brandNew)));
     }
 }

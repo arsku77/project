@@ -151,7 +151,7 @@ class ProductManageService
             }
             foreach ($form->brands->newNames as $brandName) {
                 if (!$brand = $this->brands->findByName($brandName)) {
-                    $brand = Brand::create($brandName, $brandName);
+                    $brand = Brand::create($brandName, $brandName, new Meta('', '',''));
                     $this->brands->save($brand);
                 }
                 $product->assignBrand($brand->id);
