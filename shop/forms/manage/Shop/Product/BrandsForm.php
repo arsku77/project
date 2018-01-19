@@ -31,6 +31,7 @@ class BrandsForm extends Model
             ['existing', 'default', 'value' => []],
             ['brandNew', 'string'],
             [['countryName'], 'string', 'max' => 255],
+
         ];
     }
 

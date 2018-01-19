@@ -339,7 +339,7 @@ class Product extends ActiveRecord implements AggregateRoot
 
     // Brands
 
-    public function assignBrand($id): void
+    public function assignBrand($id, $brandName): void
     {
         $assignments = $this->brandAssignments;
         foreach ($assignments as $assignment) {
@@ -347,7 +347,7 @@ class Product extends ActiveRecord implements AggregateRoot
                 return;
             }
         }
-        $assignments[] = BrandAssignment::create($id);
+        $assignments[] = BrandAssignment::create($id, $brandName);
         $this->brandAssignments = $assignments;
     }
 

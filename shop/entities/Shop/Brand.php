@@ -22,7 +22,7 @@ class Brand extends ActiveRecord
         $brand = new static();
         $brand->name = $name;
         $brand->slug = $slug;
-        $brand->country_name = $countryName;
+        $countryName ? $brand->country_name = $countryName : $brand->country_name = 'no country';
         $brand->meta = $meta;
         return $brand;
     }

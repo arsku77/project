@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'name',
                     'slug',
+                    'country_name',
                 ],
             ]) ?>
         </div>

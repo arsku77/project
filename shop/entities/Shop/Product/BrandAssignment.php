@@ -7,13 +7,15 @@ use yii\db\ActiveRecord;
 /**
  * @property integer $product_id;
  * @property integer $brand_id;
+ * @property string $brand_name;
  */
 class BrandAssignment extends ActiveRecord
 {
-    public static function create($brandId): self
+    public static function create($brandId, $brandName): self
     {
         $assignment = new static();
         $assignment->brand_id = $brandId;
+        $assignment->brand_name = $brandName;
         return $assignment;
     }
 

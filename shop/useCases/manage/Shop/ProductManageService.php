@@ -145,9 +145,9 @@ class ProductManageService
                 $product->assignTag($tag->id);
             }
 
-            foreach ($form->brands->existing as $brandId) {
-                $brand = $this->brands->get($brandId);
-                $product->assignBrand($brand->id);
+            foreach ($form->brands->existing as $brandId) {//get array all brands of this product column brand_id for brand assignment table
+                $brand = $this->brands->get($brandId);//get brand model with data: existing brand of this product
+                $product->assignBrand($brand->id, $brand->name);//rewrite all brands of this product
             }
             foreach ($form->brands->newBrandNames as $brandName) {
                 if (!$brand = $this->brands->findByName($brandName)) {
@@ -155,7 +155,7 @@ class ProductManageService
                         $form->brands->countryName, new Meta('', '',''));
                     $this->brands->save($brand);
                 }
-                $product->assignBrand($brand->id);
+                $product->assignBrand($brand->id, $brandName);//for new brand
             }
             $this->products->save($product);
         });
