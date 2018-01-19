@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = 'Update';
                 <div class="box-body">
                     <?= $form->field($model->brands, 'existing')->checkboxList($model->brands->brandsList()) ?>
                     <?= $form->field($model->brands, 'brandNew')->textInput() ?>
+                    <?= $form->field($model->brands, 'countryName')->textInput() ?>
                 </div>
             </div>
         </div>
