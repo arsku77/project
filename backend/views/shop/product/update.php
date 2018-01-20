@@ -59,6 +59,12 @@ $this->params['breadcrumbs'][] = 'Update';
                     <?= $form->field($model->brands, 'existing')->checkboxList($model->brands->brandsList()) ?>
                     <?= $form->field($model->brands, 'brandNew')->textInput() ?>
                     <?= $form->field($model->brands, 'countryName')->textInput() ?>
+
+                    <?= $form->field($model->brands, 'metaTitle')->textInput() ?>
+                    <?= $form->field($model->brands, 'metaDescription')->textarea(['rows' => 2]) ?>
+                    <?= $form->field($model->brands, 'metaKeywords')->textInput() ?>
+
+
                 </div>
             </div>
         </div>

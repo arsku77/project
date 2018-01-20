@@ -15,6 +15,10 @@ class BrandsForm extends Model
     public $existing = [];
     public $brandNew;
     public $countryName;
+    public $metaTitle;
+    public $metaDescription;
+    public $metaKeywords;
+
 
     public function __construct(Product $product = null, $config = [])
     {
@@ -31,6 +35,9 @@ class BrandsForm extends Model
             ['existing', 'default', 'value' => []],
             ['brandNew', 'string'],
             [['countryName'], 'string', 'max' => 255],
+            [['metaTitle'], 'string', 'max' => 255],
+            [['metaDescription', 'metaKeywords'], 'string'],
+
 
         ];
     }

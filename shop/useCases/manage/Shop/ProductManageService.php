@@ -7,7 +7,7 @@ use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Tag;
 use shop\entities\Shop\Brand;
 use shop\forms\manage\Shop\Product\QuantityForm;
-use shop\forms\manage\Shop\Product\CategoriesForm;
+//use shop\forms\manage\Shop\Product\CategoriesForm;
 use shop\forms\manage\Shop\Product\ModificationForm;
 use shop\forms\manage\Shop\Product\PhotosForm;
 use shop\forms\manage\Shop\Product\PriceForm;
@@ -152,7 +152,7 @@ class ProductManageService
             foreach ($form->brands->newBrandNames as $brandName) {
                 if (!$brand = $this->brands->findByName($brandName)) {
                     $brand = Brand::create($brandName, $brandName,
-                        $form->brands->countryName, new Meta('', '',''));
+                        $form->brands->countryName, new Meta($form->brands->metaTitle, $form->brands->metaDescription, $form->brands->metaKeywords));
                     $this->brands->save($brand);
                 }
                 $product->assignBrand($brand->id, $brandName);//for new brand
