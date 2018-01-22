@@ -5,32 +5,34 @@ namespace shop\entities\Shop;
 use shop\entities\behaviors\MetaBehavior;
 use shop\entities\Meta;
 use yii\db\ActiveRecord;
+use yii\db\ActiveQuery;
+use shop\entities\Country;
 
 /**
  * @property integer $id
  * @property string $name
  * @property string $slug
- * @property string $country_name
+ * @property integer $country_id
  * @property Meta $meta
  */
 class Brand extends ActiveRecord
 {
     public $meta;
 
-    public static function create($name, $slug, $countryName, Meta $meta): self
+    public static function create($name, $slug, $countryId, Meta $meta): self
     {
         $brand = new static();
         $brand->name = $name;
         $brand->slug = $slug;
-        $countryName ? $brand->country_name = $countryName : $brand->country_name = 'no country';
+        $countryId ? $brand->country_id = $countryId : $brand->country_id = 1;
         $brand->meta = $meta;
         return $brand;
     }
 
-    public function edit($name, $slug, $countryName, Meta $meta): void
+    public function edit($name, $slug, $countryId, Meta $meta): void
     {
         $this->name = $name;
-        $this->country_name = $countryName;
+        $this->country_id = $countryId;
         $this->slug = $slug;
         $this->meta = $meta;
     }
@@ -39,6 +41,13 @@ class Brand extends ActiveRecord
     {
         return $this->meta->title ?: $this->name;
     }
+
+    ##########################
+    public function getCountry(): ActiveQuery
+    {
+        return $this->hasOne(Country::class, ['id' => 'country_id']);
+    }
+
 
     ##########################
 

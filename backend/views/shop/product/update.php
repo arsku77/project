@@ -21,9 +21,7 @@ $this->params['breadcrumbs'][] = 'Update';
         <div class="box-header with-border">Common</div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-4">
-                    <?= $form->field($model, 'brandId')->dropDownList($model->brandsList()) ?>
-                </div>
+                <div class="col-md-2">ID: <?= Html::encode($product->id) ?> </div>
                 <div class="col-md-2">
                     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
                 </div>
@@ -56,9 +54,17 @@ $this->params['breadcrumbs'][] = 'Update';
             <div class="box box-default">
                 <div class="box-header with-border">Brands</div>
                 <div class="box-body">
+                    <b>
+                    <?= $form->field($model, 'brandId')->dropDownList($model->brandsList())
+                        ->label('Main Brand in this product')?>
+                    </b>
                     <?= $form->field($model->brands, 'existing')->checkboxList($model->brands->brandsList()) ?>
-                    <?= $form->field($model->brands, 'brandNew')->textInput() ?>
-                    <?= $form->field($model->brands, 'countryName')->textInput() ?>
+                    <?= $form->field($model->brands, 'brandNew')->textInput()
+                        ->label('New Brand in this product') ?>
+
+                    <?= $form->field($model->brands, 'countryId')->dropDownList($model->brands->countriesList())
+                        ->label('Select Country for New Brand')?>
+
 
                     <?= $form->field($model->brands, 'metaTitle')->textInput() ?>
                     <?= $form->field($model->brands, 'metaDescription')->textarea(['rows' => 2]) ?>

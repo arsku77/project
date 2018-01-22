@@ -2,6 +2,7 @@
 
 namespace shop\forms\manage\Shop\Product;
 
+use shop\entities\Country;
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Brand;
 use yii\base\Model;
@@ -14,7 +15,7 @@ class BrandsForm extends Model
 {
     public $existing = [];
     public $brandNew;
-    public $countryName;
+    public $countryId;
     public $metaTitle;
     public $metaDescription;
     public $metaKeywords;
@@ -34,7 +35,7 @@ class BrandsForm extends Model
             ['existing', 'each', 'rule' => ['integer']],
             ['existing', 'default', 'value' => []],
             ['brandNew', 'string'],
-            [['countryName'], 'string', 'max' => 255],
+            [['countryId'], 'integer'],
             [['metaTitle'], 'string', 'max' => 255],
             [['metaDescription', 'metaKeywords'], 'string'],
 
@@ -47,13 +48,16 @@ class BrandsForm extends Model
         return ArrayHelper::map(Brand::find()->orderBy('name')->asArray()->all(), 'id', 'name');
     }
 
+    public function countriesList(): array
+    {
+//        return ArrayHelper::map(Brand::find()->orderBy('name')->asArray()->all(), 'id', 'name');
+
+        return ArrayHelper::map(Country::find()->orderBy('sort')->asArray()->all(), 'id', 'name');
+    }
+
     public function getNewBrandNames(): array
     {
         return array_filter(array_map('trim', preg_split('#\s*,\s*#i', $this->brandNew)));
     }
 
-    public function getNewCountryNames(): array
-    {
-        return array_filter(array_map('trim', preg_split('#\s*,\s*#i', $this->countryName)));
-    }
 }

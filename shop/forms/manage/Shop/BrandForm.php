@@ -14,7 +14,7 @@ class BrandForm extends CompositeForm
 {
     public $name;
     public $slug;
-    public $countryName;
+    public $countryId;
 
     private $_brand;
 
@@ -23,7 +23,7 @@ class BrandForm extends CompositeForm
         if ($brand) {
             $this->name = $brand->name;
             $this->slug = $brand->slug;
-            $this->countryName = $brand->country_name;
+            $this->countryId = $brand->country_id;
             $this->meta = new MetaForm($brand->meta);
             $this->_brand = $brand;
         } else {
@@ -35,8 +35,9 @@ class BrandForm extends CompositeForm
     public function rules(): array
     {
         return [
-            [['name', 'slug', 'countryName'], 'required'],
-            [['name', 'slug', 'countryName'], 'string', 'max' => 255],
+            [['name', 'slug', 'countryId'], 'required'],
+            [['countryId'], 'integer'],
+            [['name', 'slug'], 'string', 'max' => 255],
             ['slug', SlugValidator::class],
             [['name', 'slug'], 'unique', 'targetClass' => Brand::class, 'filter' => $this->_brand ? ['<>', 'id', $this->_brand->id] : null]
         ];
