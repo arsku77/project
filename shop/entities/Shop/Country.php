@@ -1,8 +1,8 @@
 <?php
 
-namespace shop\entities;
+namespace shop\entities\Shop;
 
-use shop\entities\Shop\Brand;
+//use shop\entities\Shop\Brand;
 use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
 

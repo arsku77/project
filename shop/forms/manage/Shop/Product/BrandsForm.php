@@ -2,7 +2,7 @@
 
 namespace shop\forms\manage\Shop\Product;
 
-use shop\entities\Country;
+use shop\entities\Shop\Country;
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Brand;
 use yii\base\Model;
@@ -19,7 +19,6 @@ class BrandsForm extends Model
     public $metaTitle;
     public $metaDescription;
     public $metaKeywords;
-
 
     public function __construct(Product $product = null, $config = [])
     {
@@ -50,8 +49,6 @@ class BrandsForm extends Model
 
     public function countriesList(): array
     {
-//        return ArrayHelper::map(Brand::find()->orderBy('name')->asArray()->all(), 'id', 'name');
-
         return ArrayHelper::map(Country::find()->orderBy('sort')->asArray()->all(), 'id', 'name');
     }
 
