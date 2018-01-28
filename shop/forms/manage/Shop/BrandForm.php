@@ -3,9 +3,11 @@
 namespace shop\forms\manage\Shop;
 
 use shop\entities\Shop\Brand;
+use shop\entities\Shop\Country;
 use shop\forms\CompositeForm;
 use shop\forms\manage\MetaForm;
 use shop\validators\SlugValidator;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property MetaForm $meta;
@@ -42,6 +44,12 @@ class BrandForm extends CompositeForm
             [['name', 'slug'], 'unique', 'targetClass' => Brand::class, 'filter' => $this->_brand ? ['<>', 'id', $this->_brand->id] : null]
         ];
     }
+
+    public function countriesList(): array
+    {
+        return ArrayHelper::map(Country::find()->orderBy('sort')->asArray()->all(), 'id', 'name');
+    }
+
 
     public function internalForms(): array
     {

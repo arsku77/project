@@ -55,6 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'raw',
                             ],
                             [
+                                'attribute' => 'brand_id',
+                                'value' => ArrayHelper::getValue($product, 'brand.name'),
+                                'label' =>'Main Brand for this Product',
+                            ],
+
+                            [
                                 'label' => 'Brands',
                                 'value' => implode(', ', ArrayHelper::getColumn($product->brands, 'name')),
                             ],

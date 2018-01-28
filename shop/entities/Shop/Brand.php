@@ -6,7 +6,7 @@ use shop\entities\behaviors\MetaBehavior;
 use shop\entities\Meta;
 use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
-use shop\entities\Country;
+use shop\entities\Shop\Country;
 
 /**
  * @property integer $id

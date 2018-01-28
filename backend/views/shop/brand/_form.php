@@ -17,7 +17,9 @@ use yii\widgets\ActiveForm;
         <div class="box-body">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'countryName')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'countryId')->dropDownList($model->countriesList())
+                ->label('Select Country for this Brand')?>
+
 
         </div>
     </div>

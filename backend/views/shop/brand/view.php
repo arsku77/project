@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -32,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'name',
                     'slug',
-                    'country_name',
+                    [
+                        'attribute' => 'country_id',
+                        'value' => ArrayHelper::getValue($brand, 'country.name'),
+                        'label' =>'Country for this Brand',
+                    ],
                 ],
             ]) ?>
         </div>
