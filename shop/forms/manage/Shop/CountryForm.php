@@ -5,6 +5,7 @@ namespace shop\forms\manage\Shop;
 use shop\entities\Shop\Country;
 use shop\validators\IsoCodeValidator;
 use shop\validators\IsoNumberValidator;
+use shop\validators\UppercaseValidator;
 use yii\base\Model;
 
 class CountryForm extends Model
@@ -42,7 +43,8 @@ class CountryForm extends Model
             [['active'], 'boolean'],
             [['sort'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['name', 'iso_code_2', 'iso_code_3'], IsoCodeValidator::class],
+            [['iso_code_2', 'iso_code_3'], IsoCodeValidator::class],
+            [['name'], UppercaseValidator::class],
             ['iso_number_3', IsoNumberValidator::class],
             [['name', 'iso_code_2', 'iso_code_3', 'iso_number_3'], 'unique', 'targetClass' => Country::class, 'filter' => $this->_country ? ['<>', 'id', $this->_country->id] : null]
 

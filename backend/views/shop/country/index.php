@@ -1,6 +1,7 @@
 <?php
 
 use shop\entities\Shop\Country;
+use shop\helpers\CountryHelper;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -35,7 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'iso_code_2',
                     'iso_code_3',
                     'iso_number_3',
-                    'active',
+                    [
+                        'attribute' => 'active',
+                        'filter' => $searchModel->statusList(),
+                        'value' => function (Country $model) {
+                            return CountryHelper::statusLabel($model->active);
+                        },
+                        'format' => 'raw',
+                    ],
                     'sort',
                     ['class' => ActionColumn::class],
                 ],

@@ -2,6 +2,7 @@
 
 namespace backend\forms\Shop;
 
+use shop\helpers\CountryHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use shop\entities\Shop\Country;
@@ -12,9 +13,9 @@ class CountrySearch extends Model
     public $name;
     public $slug;
 
-    public $isoCode2;
-    public $isoCode3;
-    public $isoNumber3;
+    public $iso_code_2;
+    public $iso_code_3;
+    public $iso_number_3;
     public $active;
     public $sort;
 
@@ -23,7 +24,7 @@ class CountrySearch extends Model
     {
         return [
             [['id'], 'integer'],
-            [['name', 'isoCode2', 'isoCode3', 'isoNumber3', 'sort'], 'safe'],
+            [['name', 'iso_code_2', 'iso_code_3', 'iso_number_3', 'active'], 'safe'],//listed search field
         ];
     }
 
@@ -51,14 +52,21 @@ class CountrySearch extends Model
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'active' => $this->active,
         ]);
 
         $query
             ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'iso_code_2', $this->isoCode2])
-            ->andFilterWhere(['like', 'iso_code_3', $this->isoCode3])
-            ->andFilterWhere(['like', 'iso_number_3', $this->isoNumber3]);
+            ->andFilterWhere(['like', 'iso_code_2', $this->iso_code_2])
+            ->andFilterWhere(['like', 'iso_code_3', $this->iso_code_3])
+            ->andFilterWhere(['like', 'iso_number_3', $this->iso_number_3]);
 
         return $dataProvider;
     }
+
+    public function statusList(): array
+    {
+        return CountryHelper::statusList();
+    }
+
 }

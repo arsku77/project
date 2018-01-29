@@ -18,14 +18,25 @@ use yii\db\ActiveQuery;
 class Country extends ActiveRecord
 {
 
-    public static function create($name, $iso_code_2, $iso_code_3 , $iso_number_3 , $active , $sort): self
+    const ACTIVE_NO = 0;
+    const ACTIVE_YES = 1;
+
+    /**
+     * @param $name
+     * @param $iso_code_2
+     * @param $iso_code_3
+     * @param $iso_number_3
+     * @param $sort
+     * @return Country
+     */
+    public static function create($name, $iso_code_2, $iso_code_3 , $iso_number_3 , $sort): self
     {
         $country = new static();
         $country->name = $name;
         $country->iso_code_2 = $iso_code_2;
         $country->iso_code_3 = $iso_code_3;
         $country->iso_number_3 = $iso_number_3;
-        $country->active = $active;
+        $country->active = self::ACTIVE_YES;
         $country->sort = $sort;
         return $country;
     }
@@ -53,7 +64,34 @@ class Country extends ActiveRecord
         return $this->hasMany(Brand::class, ['country_id' => 'id']);
     }
 
+    /*------status begin----------*/
+    public function activate(): void
+    {
+        if ($this->isActive()) {
+            throw new \DomainException('Product is already active.');
+        }
+        $this->active = self::ACTIVE_YES;
+    }
 
+    public function draft(): void
+    {
+        if ($this->isDraft()) {
+            throw new \DomainException('Product is already draft.');
+        }
+        $this->active = self::ACTIVE_NO;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active == self::ACTIVE_YES;
+    }
+
+
+    public function isDraft(): bool
+    {
+        return $this->active == self::ACTIVE_NO;
+    }
+    /*-------status end------------*/
     ##########################
 
     public static function tableName(): string
