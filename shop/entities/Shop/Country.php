@@ -46,16 +46,14 @@ class Country extends ActiveRecord
      * @param $iso_code_2
      * @param $iso_code_3
      * @param $iso_number_3
-     * @param $active
      * @param $sort
      */
-    public function edit($name, $iso_code_2, $iso_code_3 , $iso_number_3 , $active , $sort): void
+    public function edit($name, $iso_code_2, $iso_code_3 , $iso_number_3 , $sort): void
     {
         $this->name = $name;
         $this->iso_code_2 = $iso_code_2;
         $this->iso_code_3 = $iso_code_3;
         $this->iso_number_3 = $iso_number_3;
-        $this->active = $active;
         $this->sort = $sort;
     }
 
@@ -68,7 +66,7 @@ class Country extends ActiveRecord
     public function activate(): void
     {
         if ($this->isActive()) {
-            throw new \DomainException('Product is already active.');
+            throw new \DomainException('Country is already active.');
         }
         $this->active = self::ACTIVE_YES;
     }
@@ -76,7 +74,7 @@ class Country extends ActiveRecord
     public function draft(): void
     {
         if ($this->isDraft()) {
-            throw new \DomainException('Product is already draft.');
+            throw new \DomainException('Country is already draft.');
         }
         $this->active = self::ACTIVE_NO;
     }

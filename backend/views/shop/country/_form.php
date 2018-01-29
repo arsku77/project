@@ -11,6 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="tag-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    </div>
 
     <div class="box box-default">
         <div class="box-body">

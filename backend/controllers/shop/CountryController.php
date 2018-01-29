@@ -5,12 +5,8 @@ namespace backend\controllers\shop;
 use backend\forms\Shop\CountrySearch;
 use shop\entities\Shop\Country;
 use shop\forms\manage\Shop\CountryForm;
-use shop\forms\manage\Shop\DeliveryMethodForm;
 use shop\useCases\manage\Shop\CountryManageService;
-use shop\useCases\manage\Shop\DeliveryMethodManageService;
 use Yii;
-use shop\entities\Shop\DeliveryMethod;
-use backend\forms\Shop\DeliveryMethodSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -94,6 +90,7 @@ class CountryController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->edit($country->id, $form);
+//                return $this->redirect(Yii::$app->request->referrer);
                 return $this->redirect(['view', 'id' => $country->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -120,6 +117,37 @@ class CountryController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionActivate($id)
+    {
+        try {
+            $this->service->activate($id);
+        } catch (\DomainException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDraft($id)
+    {
+        try {
+            $this->service->draft($id);
+        } catch (\DomainException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+
+
 
     /**
      * @param integer $id
