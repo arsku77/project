@@ -20,8 +20,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'iso_code_2')->textInput(['maxlength' => 2]) ?>
             <?= $form->field($model, 'iso_code_3')->textInput(['maxlength' => 3]) ?>
-            <?= $form->field($model, 'iso_number_3')->textInput(['maxlength' => 3]) ?>
-            <?= $form->field($model, 'active')->textInput(['maxlength' => 1]) ?>
+            <?= $form->field($model, 'iso_number_3')->textInput(['minlength' => 3, 'maxlength' => 3]) ?>
+            <?= $form->field($model, 'active')->dropDownList([1 => 'Active' , 0 => 'Draft']) ?>
             <?= $form->field($model, 'sort')->textInput(['maxlength' => 3]) ?>
 
         </div>

@@ -22,6 +22,7 @@ class CountryManageService
             $form->iso_code_2,
             $form->iso_code_3,
             $form->iso_number_3,
+            $form->active,
             $form->sort
         );
         $this->countries->save($country);
@@ -36,6 +37,7 @@ class CountryManageService
             $form->iso_code_2,
             $form->iso_code_3,
             $form->iso_number_3,
+            $form->active,
             $form->sort
         );
         $this->countries->save($country);
