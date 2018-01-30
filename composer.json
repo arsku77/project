@@ -31,7 +31,6 @@
         "bower-asset/magnific-popup": "^1.1",
         "elasticsearch/elasticsearch": "^5.2",
         "yii-cms/yii2-robokassa": "^1.1",
-        "phpoffice/phpexcel": "^1.8",
         "mihaildev/yii2-ckeditor": "^1.0",
         "mihaildev/yii2-elfinder": "^1.2",
         "fishvision/yii2-migrate": "^1.0",
@@ -43,7 +42,8 @@
         "yiisoft/yii2-queue": "^2.0",
         "league/flysystem": "^1.0",
         "bower-asset/bootstrap": "3.3.5",
-        "bower-asset/jquery": "2.1.1"
+        "bower-asset/jquery": "2.1.1",
+        "phpoffice/phpspreadsheet": "^1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
