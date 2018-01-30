@@ -43,6 +43,8 @@ class CountryForm extends Model
             [['active'], 'boolean'],
             [['sort'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['iso_code_2'], 'string', 'min' => 2],
+            [['iso_code_3', 'iso_number_3'], 'string', 'min' => 3],
             [['iso_code_2', 'iso_code_3'], IsoCodeValidator::class],
             [['name'], UppercaseValidator::class],
             ['iso_number_3', IsoNumberValidator::class],
