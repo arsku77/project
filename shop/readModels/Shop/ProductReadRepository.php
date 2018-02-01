@@ -156,28 +156,28 @@ class ProductReadRepository
             'type' => 'products',
             'body' => [
                 '_source' => ['id'],
-                'from' => $pagination->getOffset(),
-                'size' => $pagination->getLimit(),
-                'sort' => array_map(function ($attribute, $direction) {
+                'from' => $pagination->getOffset(),//ES paieskos rezultato rodymas nuo kokio puslapio
+                'size' => $pagination->getLimit(),//ES paieskos limitas - po kiek irasu ismesti vienam puslapiui
+                'sort' => array_map(function ($attribute, $direction) {//nurodome rezultato rusiavima
                     return [$attribute => ['order' => $direction === SORT_ASC ? 'asc' : 'desc']];
                 }, array_keys($sort->getOrders()), $sort->getOrders()),
                 'query' => [
-                    'bool' => [
-                        'must' => array_merge(
-                            array_filter([
+                    'bool' => [//suklijuoja elementus ES
+                        'must' => array_merge(//ES paieskos principas ['term'=>['categories'=>2]], kas reiskia term - turi atitikti tiksliai
+                            array_filter([ //si f-ja atsijoja visus false
                                 !empty($form->category) ? ['term' => ['categories' => $form->category]] : false,
                                 !empty($form->brand) ? ['term' => ['brand' => $form->brand]] : false,
                                 !empty($form->text) ? ['multi_match' => [
-                                    'query' => $form->text,
-                                    'fields' => [ 'name^3', 'description' ]
+                                    'query' => $form->text,//$form->text yra ieskomas zodis
+                                    'fields' => [ 'name^3', 'description' ]//'name^3' reiskia svarbuma, lyginant su 'description'
                                 ]] : false,
                             ]),
                             array_map(function (ValueForm $value) {
-                                return ['nested' => [
+                                return ['nested' => [//zodis nested reiskia, kad ieskoti po idetinius elementus
                                     'path' => 'values',
                                     'query' => [
-                                        'bool' => [
-                                            'must' => array_filter([
+                                        'bool' => [//paieskos parametrai: 'match'-tiksliai turi atitikti, 'range': jei 'gte' - ieskomas elementas turi but >= nurodytai reiksmei
+                                            'must' => array_filter([//'range': jei 'lte' - ieskomas elementas turi but <= nurodytai paieskos reiksmei
                                                 ['match' => ['values.characteristic' => $value->getId()]],
                                                 !empty($value->equal) ? ['match' => ['values.value_string' => $value->equal]] : false,
                                                 !empty($value->from) ? ['range' => ['values.value_int' => ['gte' => $value->from]]] : false,
@@ -185,27 +185,27 @@ class ProductReadRepository
                                             ]),
                                         ],
                                     ],
-                                ]];
+                                ]];//perduodame tik tas charakteristikas, kurios yra prekeje
                             }, array_filter($form->values, function (ValueForm $value) { return $value->isFilled(); }))
                         )
                     ],
                 ],
             ],
         ]);
-
-        $ids = ArrayHelper::getColumn($response['hits']['hits'], '_source.id');
+                //hits'uose bus grazinta tik rastu prekiu id, is kuriu padarome gryna ids masyva
+        $ids = ArrayHelper::getColumn($response['hits']['hits'], '_source.id');//
 
         if ($ids) {
             $query = Product::find()
                 ->active()
                 ->with('mainPhoto')
-                ->andWhere(['id' => $ids])
+                ->andWhere(['id' => $ids])//Expression() MySQL perduoda tokia uzklausa ORDER BY FIELD(id,5,2,6,7) - kuri taip ir surusiuoja irasus
                 ->orderBy(new Expression('FIELD(id,' . implode(',', $ids) . ')'));
         } else {
             $query = Product::find()->andWhere(['id' => 0]);
         }
-
-        return new SimpleActiveDataProvider([
+//kad nenaudoti activeDataProvider padarome si (nes activeDataProvider vel is naujo nustatines limitus ir paginacija)
+        return new SimpleActiveDataProvider([//todel sioje klaseje atjungeme siuos parametrus
             'query' => $query,
             'totalCount' => $response['hits']['total'],
             'pagination' => $pagination,

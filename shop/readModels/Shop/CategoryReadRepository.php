@@ -40,10 +40,10 @@ class CategoryReadRepository
     }
 
     public function getTreeWithSubsOf(Category $category = null): array
-    {
+    {//gaunam visas kategorijas
         $query = Category::find()->andWhere(['>', 'depth', 0])->orderBy('lft');
 
-        if ($category) {
+        if ($category) {//jei yra kategorija
             $criteria = ['or', ['depth' => 1]];
             foreach (ArrayHelper::merge([$category], $category->parents) as $item) {
                 $criteria[] = ['and', ['>', 'lft', $item->lft], ['<', 'rgt', $item->rgt], ['depth' => $item->depth + 1]];
@@ -57,17 +57,17 @@ class CategoryReadRepository
             'index' => 'shop',
             'type' => 'products',
             'body' => [
-                'size' => 0,
-                'aggs' => [
-                    'group_by_category' => [
-                        'terms' => [
-                            'field' => 'categories',
-                        ]
-                    ]
+                'size' => 0,//reiskia - neisvesk, nerodyk
+                'aggs' => [// ES paieskos agregatas
+                    'group_by_category' => [//grupavimas
+                        'terms' => [//reiskia, kad atitikimas butu tikslus
+                            'field' => 'categories',//paieskos laukas
+                        ]//si paieska ismeta kategoriju masyva: prekiu lentele sugrupuoja pagal
+                    ]//kategorijos id ir duoda skaicius - kiek kategorija (jos id) turi tu paciu prekiu
                 ],
             ],
         ]);
-
+//gauname ES bucket poru smasyva: 'key' => 2 (kategorijos id) ir 'doc_count' => 2 (kiek prekiu yra tos kategorijos)
         $counts = ArrayHelper::map($aggs['aggregations']['group_by_category']['buckets'], 'key', 'doc_count');
 
         return array_map(function (Category $category) use ($counts) {

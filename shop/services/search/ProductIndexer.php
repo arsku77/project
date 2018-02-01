@@ -33,27 +33,27 @@ class ProductIndexer
     public function index(Product $product): void
     {
         $this->client->index([
-            'index' => 'shop',
-            'type' => 'products',
-            'id' => $product->id,
-            'body' => [
-                'id' => $product->id,
-                'name' => $product->name,
-                'description' => strip_tags($product->description),
-                'price' => $product->price_new,
-                'rating' => $product->rating,
-                'brand' => $product->brand_id,
-                'categories' => ArrayHelper::merge(
-                    [$product->category->id],
-                    ArrayHelper::getColumn($product->category->parents, 'id'),
-                    ArrayHelper::getColumn($product->categories, 'id'),
+            'index' => 'shop',//ES indeksas (analogas su MySQL indeksu)
+            'type' => 'products',//ES tipas - analogas su MySQL lentele
+            'id' => $product->id,//id - analogas su musu id
+            'body' => [//kunas -kuris yra vienas ES irasas
+                'id' => $product->id,//reiks rusiavimui
+                'name' => $product->name,//prekes pvd
+                'description' => strip_tags($product->description),//prekes aprasymas, atmetus tagus
+                'price' => $product->price_new,//kad galetume rusiuoti paieskos rezultata
+                'rating' => $product->rating,//kad galetume rusiuoti paieskos rezultata
+                'brand' => $product->brand_id,//kad galetume rusiuoti paieskos rezultata
+                'categories' => ArrayHelper::merge(//kaip viena skiltele, i ES ikeliame prekes kategoriju
+                    [$product->category->id],//kad is paieskos pagal prekes pavadinima - gautume visu tos prekes kaegoriju id
+                    ArrayHelper::getColumn($product->category->parents, 'id'),//tai pagrindine kategorija
+                    ArrayHelper::getColumn($product->categories, 'id'),//tai papildomos kategorijos
                     array_reduce(array_map(function (Category $category) {
                         return ArrayHelper::getColumn($category->parents, 'id');
                     }, $product->categories), 'array_merge', [])
                 ),
                 'tags' => ArrayHelper::getColumn($product->tagAssignments, 'tag_id'),
-                'values' => array_map(function (Value $value) {
-                    return [
+                'values' => array_map(function (Value $value) {//charakteristikos - kad galetume pagal jas ieskoti - pagal
+                    return [                                // filtrus - juose - sarase isrenkame charakteristika ir pagal saraso reiksme paieskome su ES sioje lenteleje
                         'characteristic' => $value->characteristic_id,
                         'value_string' => (string)$value->value,
                         'value_int' => (int)$value->value,

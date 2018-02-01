@@ -26,13 +26,13 @@ class SearchController extends Controller
             ->with(['category', 'categoryAssignments', 'tagAssignments', 'values'])
             ->orderBy('id');
 
-        $this->stdout('Clearing' . PHP_EOL);
+        $this->stdout('Clearing indexes ES' . PHP_EOL);
 
         $this->indexer->clear();
 
         $this->stdout('Indexing of products' . PHP_EOL);
 
-        foreach ($query->each() as $product) {
+        foreach ($query->each() as $product) {//each dirba paketais po 100irasu
             /** @var Product $product */
             $this->stdout('Product #' . $product->id . PHP_EOL);
             $this->indexer->index($product);
@@ -91,15 +91,15 @@ class SearchController extends Controller
 //                    ]
 //                ]
 //                ////////////////////////////////////////
-
-                'index' => 'shop',
-                'body' => [
-                    'mappings' => [
-                        'products' => [
-                            '_source' => [
-                                'enabled' => true,
+/*-----ES index - tai vieta duomenims patalpinti */
+                'index' => 'shop',//index pvd - analogas su MySQL - tai bazes pavadinimas
+                'body' => [//index turinys
+                    'mappings' => [//nurodomi index-o parametrai
+                        'products' => [//ES lentele
+                            '_source' => [//turinys - true, jie bus false,
+                                'enabled' => true,//tai ES grazins tik id, o turinio - pvd nerodys
                             ],
-                            'properties' => [
+                            'properties' => [//parametrai - nurodomi ES lenteles products lauku tipai
                                 'id' => [
                                     'type' => 'integer',
                                 ],
@@ -124,14 +124,14 @@ class SearchController extends Controller
                                 'tags' => [
                                     'type' => 'integer',
                                 ],
-                                'values' => [
-                                    'type' => 'nested',
+                                'values' => [//charakteristikoms uzduodame tipa nested - tuom pasakome, kad ten bus masyvas
+                                    'type' => 'nested',//kurio raktai tures tokius tipus
                                     'properties' => [
                                         'characteristic' => [
                                             'type' => 'integer'
                                         ],
                                         'value_string' => [
-                                            'type' => 'keyword',
+                                            'type' => 'keyword',//vietoje text naudojame keyword, nes sis tipas reiskia tikslia paieska - turi atitikti grieztai
                                         ],
                                         'value_int' => [
                                             'type' => 'integer',
