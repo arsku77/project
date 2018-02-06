@@ -56,41 +56,6 @@ class SearchController extends Controller
 //            $this->stdout('Deleted all settings elasticsearch!' . PHP_EOL);
 
             $client->indices()->create([
-//                'index'=> [
-//                    'index' => 'my_idx',
-//                    'type' => 'my_type',
-//                    'analysis' => [
-//                        'index_analyzer'=> [
-//                            'my_index_analyzer' => [
-//                                'type' => 'custom',
-//                                'tokenizer'=> 'standard',
-//                                'filter' => [
-//                                    'lowercase',
-//                                    'mynGram'
-//                                ]
-//                            ]
-//                        ],
-//                        'search_analyzer' => [
-//                            'my_search_analyzer' => [
-//                                'type' => 'custom',
-//                                'tokenizer' => 'standard',
-//                                'filter' => [
-//                                    'standard',
-//                                    'lowercase',
-//                                    'mynGram'
-//                                ]
-//                            ]
-//                        ],
-//                        'filter' => [
-//                            'mynGram' => [
-//                                'type' => 'nGram',
-//                                'min_gram' => 2,
-//                                'max_gram' => 50
-//                            ]
-//                        ]
-//                    ]
-//                ]
-//                ////////////////////////////////////////
 /*-----ES index - tai vieta duomenims patalpinti */
                 'index' => 'shop',//index pvd - analogas su MySQL - tai bazes pavadinimas
                 'body' => [//index turinys
@@ -150,6 +115,7 @@ class SearchController extends Controller
 
         }
     }
+
 
     public function actionDeleteIndex(): void
     {
