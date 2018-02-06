@@ -56,11 +56,45 @@ class SearchController extends Controller
 //            $this->stdout('Deleted all settings elasticsearch!' . PHP_EOL);
 
             $client->indices()->create([
-/*-----ES index - tai vieta duomenims patalpinti */
                 'index' => 'shop',//index pvd - analogas su MySQL - tai bazes pavadinimas
                 'body' => [//index turinys
-                    'mappings' => [//nurodomi index-o parametrai
+                    'settings' => [
+                        'analysis'=> [
+                            'index_analyzer'=> [
+                                'my_index_analyzer'=> [
+                                    'type'=> 'custom',
+                                    'tokenizer'=> 'standard',
+                                    'filter'=> [
+                                        'lowercase',
+                                        'asciifolding',
+                                        'mynGram',
+                                    ]
+                                ]
+                            ],
+                            'search_analyzer'=> [
+                                'my_search_analyzer'=> [
+                                    'type'=> 'custom',
+                                    'tokenizer'=> 'standard',
+                                    'filter'=> [
+                                        'standard',
+                                        'lowercase',
+                                        'mynGram'
+                                    ]
+                                ]
+                            ],
+                            'filter'=> [
+                                'mynGram'=> [
+                                    'type'=> 'nGram',
+                                    'min_gram'=> 2,
+                                    'max_gram'=> 50
+                                ]
+                            ]
+                        ],
+
+                    ],
+                    'mappings' => [
                         'products' => [//ES lentele
+                            //'filter' => 'asciifolding',
                             '_source' => [//turinys - true, jie bus false,
                                 'enabled' => true,//tai ES grazins tik id, o turinio - pvd nerodys
                             ],
@@ -70,6 +104,8 @@ class SearchController extends Controller
                                 ],
                                 'name' => [
                                     'type' => 'text',
+                                    'analyzer' => 'standard',
+
                                 ],
                                 'description' => [
                                     'type' => 'text',
