@@ -67,28 +67,37 @@ class SearchController extends Controller
                                     'filter'=> [
                                         'lowercase',
                                         'asciifolding',
-                                        'mynGram',
+//                                        'mynGram',
                                     ]
                                 ]
                             ],
-                            'search_analyzer'=> [
+                            'analyzer'=> [
                                 'my_search_analyzer'=> [
                                     'type'=> 'custom',
-                                    'tokenizer'=> 'standard',
+                                    'tokenizer'=> 'my_ngram_tokenizer',
                                     'filter'=> [
-                                        'standard',
+//                                        'standard',
+                                        'asciifolding',
                                         'lowercase',
-                                        'mynGram'
+//                                        'mynGram',
                                     ]
                                 ]
                             ],
-                            'filter'=> [
-                                'mynGram'=> [
-                                    'type'=> 'nGram',
-                                    'min_gram'=> 2,
-                                    'max_gram'=> 50
+                            'tokenizer' => [
+                                'my_ngram_tokenizer' => [
+                                    'type' => 'nGram',
+                                    'min_gram' => 3,
+                                    'max_gram' => 15,
+                                    'token_chars' => ['letter', 'digit']
                                 ]
-                            ]
+                            ],
+//                            'filter'=> [
+//                                'mynGram'=> [
+//                                    'type'=> 'nGram',
+//                                    'min_gram'=> 3,
+//                                    'max_gram'=> 50
+//                                ]
+//                            ]
                         ],
 
                     ],
@@ -104,7 +113,7 @@ class SearchController extends Controller
                                 ],
                                 'name' => [
                                     'type' => 'text',
-                                    'analyzer' => 'standard',
+                                    'analyzer'=> 'my_search_analyzer',
 
                                 ],
                                 'description' => [

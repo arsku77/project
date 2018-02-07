@@ -36,7 +36,7 @@ class ProductIndexer
             'index' => 'shop',//ES indeksas (analogas su MySQL indeksu)
             'type' => 'products',//ES tipas - analogas su MySQL lentele
             'id' => $product->id,//id - analogas su musu id
-            'body' => [//kunas -kuris yra vienas ES irasas
+            'body' => [ //kunas -kuris yra vienas ES irasas
                 'id' => $product->id,//reiks rusiavimui
                 'name' => $product->name,//prekes pvd
                 'description' => strip_tags($product->description),//prekes aprasymas, atmetus tagus
