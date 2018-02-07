@@ -39,6 +39,7 @@ class ProductIndexer
             'body' => [ //kunas -kuris yra vienas ES irasas
                 'id' => $product->id,//reiks rusiavimui
                 'name' => $product->name,//prekes pvd
+                'code' => $product->code,//prekes pvd
                 'description' => strip_tags($product->description),//prekes aprasymas, atmetus tagus
                 'price' => $product->price_new,//kad galetume rusiuoti paieskos rezultata
                 'rating' => $product->rating,//kad galetume rusiuoti paieskos rezultata

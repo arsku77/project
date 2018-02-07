@@ -67,7 +67,6 @@ class SearchController extends Controller
                                     'filter'=> [
                                         'lowercase',
                                         'asciifolding',
-//                                        'mynGram',
                                     ]
                                 ]
                             ],
@@ -76,28 +75,19 @@ class SearchController extends Controller
                                     'type'=> 'custom',
                                     'tokenizer'=> 'my_ngram_tokenizer',
                                     'filter'=> [
-//                                        'standard',
-                                        'asciifolding',
-                                        'lowercase',
-//                                        'mynGram',
+                                        'asciifolding',//paieskoje galima vietoje š vesti s
+                                        'lowercase',//mazosios raides
                                     ]
                                 ]
                             ],
-                            'tokenizer' => [
+                            'tokenizer' => [//tokenizer geria uz filter
                                 'my_ngram_tokenizer' => [
                                     'type' => 'nGram',
-                                    'min_gram' => 3,
-                                    'max_gram' => 15,
+                                    'min_gram' => 3,//paieskos simboliu min skaicius
+                                    'max_gram' => 15,//max
                                     'token_chars' => ['letter', 'digit']
                                 ]
                             ],
-//                            'filter'=> [
-//                                'mynGram'=> [
-//                                    'type'=> 'nGram',
-//                                    'min_gram'=> 3,
-//                                    'max_gram'=> 50
-//                                ]
-//                            ]
                         ],
 
                     ],
@@ -114,10 +104,14 @@ class SearchController extends Controller
                                 'name' => [
                                     'type' => 'text',
                                     'analyzer'=> 'my_search_analyzer',
-
+                                ],
+                                'code' => [
+                                    'type' => 'text',
+                                    'analyzer'=> 'my_search_analyzer',
                                 ],
                                 'description' => [
                                     'type' => 'text',
+                                    'analyzer'=> 'my_search_analyzer',
                                 ],
                                 'price' => [
                                     'type' => 'integer',

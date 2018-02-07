@@ -169,7 +169,7 @@ class ProductReadRepository
                                 !empty($form->brand) ? ['term' => ['brand' => $form->brand]] : false,
                                 !empty($form->text) ? ['multi_match' => [
                                     'query' => $form->text,//$form->text yra ieskomas zodis
-                                    'fields' => [ 'name^3', 'description' ]//'name^3' reiskia svarbuma, lyginant su 'description'
+                                    'fields' => [ 'code^3', 'name^2', 'description' ]//'name^3' reiskia svarbuma, lyginant su 'description'
                                 ]] : false,
                             ]),
                             array_map(function (ValueForm $value) {
